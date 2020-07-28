@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 
     private Rigidbody2D _rb;
     private float _canjump = -1f;
+    private int _score = 0;
     
     // Start is called before the first frame update
     private void Start()
@@ -22,7 +23,15 @@ public class Player : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if()
+        if (other.transform.tag == "Teava")
+        {
+            Destroy(this.gameObject);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        ++_score;
     }
 
     private void InitialiseVariables()
