@@ -11,7 +11,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _rotationSpeed;
 
     private Rigidbody2D _rb;
-    private float _canjump = -1f;
+    private GameManager _gameManager;
+    private float _canJump = -1f;
     private int _score = 0;
     
     // Start is called before the first frame update
@@ -32,6 +33,7 @@ public class Player : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         ++_score;
+        _gameManager.UpdateScore(_score);
     }
 
     private void InitialiseVariables()
@@ -39,14 +41,18 @@ public class Player : MonoBehaviour
         _rb = this.gameObject.GetComponent<Rigidbody2D>();
         if (_rb == null)
             Debug.LogError("_rb is null");
+
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (_gameManager == null)
+            Debug.LogError("_gameManager is NULL!");    
     }
 
     private void Jump()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= _canjump)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= _canJump && GameManager.)
         {
             _rb.velocity = new Vector2(_rb.velocity.x,_jumpForce);;
-            _canjump = Time.time + _jumpCooldown;
+            _canJump = Time.time + _jumpCooldown;
         }
     }
 
@@ -66,10 +72,19 @@ public class Player : MonoBehaviour
         _rb.AddForce(new Vector3(_speed,0f,0f),ForceMode2D.Force);
     }
 
+    private void CheckForMapExit()
+    {
+        if (transform.position.y > 6.5 || transform.position.y < -6.5)
+        {
+            Destroy(this.gameObject);            
+        }
+    }
+
     // Update is called once per frame
     private void Update()
     {
         Jump();
         Rotation();
+        CheckForMapExit();
     }
 }

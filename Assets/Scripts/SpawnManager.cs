@@ -10,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     private float _lastTeava = 0.0f;
     private float _nextPos = 0f;
     private GameObject _player;
+    private Transform _teavaContainer;
     
     // Start is called before the first frame update
     void Start()
@@ -31,8 +32,9 @@ public class SpawnManager : MonoBehaviour
     {
         //float _playerPos = _player.transform.position.x;
         float nextTeavaPos = _lastTeava + _distance;
-        Instantiate(_teavaPrefab, new Vector3(nextTeavaPos, Random.Range(3.6f, -3.6f), 0f),
+        GameObject gameObject = Instantiate(_teavaPrefab, new Vector3(nextTeavaPos, Random.Range(3.6f, -3.6f), 0f),
             Quaternion.identity);
+        gameObject.transform.SetParent(_teavaContainer);
         _lastTeava = nextTeavaPos;
         //_nextPos = _playerPos + 5f;
     }
@@ -52,6 +54,8 @@ public class SpawnManager : MonoBehaviour
         _player = GameObject.Find("Player");
         if (_player == null)
             Debug.LogError("_player is NULL!");
+
+        _teavaContainer = GameObject.Find("TeavaContainer").GetComponent<Transform>();
     }
 
     // Update is called once per frame
