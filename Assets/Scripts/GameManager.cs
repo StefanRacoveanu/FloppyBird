@@ -11,6 +11,7 @@ public class GameManager : MonoBehaviour
     private int _score;
     private Text _text;
     [SerializeField] private GameObject _menu;
+    [SerializeField] private GameObject _gameOverText;
     private SpawnManager _spawnManager;
     private CameraScript _cameraScript;
     private GameObject _player;
@@ -50,9 +51,19 @@ public class GameManager : MonoBehaviour
         _text.text = "Score: " + _score;
     }
 
+    IEnumerator FlashGameOverText()
+    {
+        while (true)
+        {
+            _gameOverText.SetActive(!_gameOverText.activeSelf);
+            yield return new WaitForSeconds(0.75f);
+        }
+    }
+
     public void OnDeath()
     {
         _spawnManager.StopSpawn();
+        StartCoroutine(FlashGameOverText());
         Destroy(_cameraScript);
         Destroy(_player);
     }

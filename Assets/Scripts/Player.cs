@@ -32,7 +32,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        ++_score;
+        ++_score;   //TODO: Delete the trigger after scoring to prevent double scoring
         _gameManager.UpdateScore(_score);
     }
 
