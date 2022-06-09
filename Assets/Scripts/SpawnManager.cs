@@ -14,6 +14,7 @@ public class SpawnManager : MonoBehaviour
     private GameObject _player;
     private Transform _pipeContainer;
     private Coroutine _pipeSpawner;
+    private Coroutine _pipeDestroyer;
 
     // Start is called before the first frame update
     void Start()
@@ -21,6 +22,7 @@ public class SpawnManager : MonoBehaviour
         InitialiseVariables();
         Spawn3Pipes();
         _pipeSpawner = StartCoroutine(PipeSpawner());
+        _pipeDestroyer = StartCoroutine(PipeDestroyer());
     }
 
     private void Spawn3Pipes()
@@ -45,6 +47,7 @@ public class SpawnManager : MonoBehaviour
     public void StopSpawn()
     {
         StopCoroutine(_pipeSpawner);
+        StopCoroutine(_pipeDestroyer);
     }
 
     private IEnumerator PipeSpawner()
@@ -53,6 +56,16 @@ public class SpawnManager : MonoBehaviour
         {
             SpwanPipe();
             yield return new WaitForSeconds(2.24f);
+        }
+    }
+
+    private IEnumerator PipeDestroyer()
+    {
+        yield return new WaitForSeconds(9f);
+        while (true)
+        {
+            Destroy(_pipeContainer.GetChild(0).gameObject);
+            yield return new WaitForSeconds(2.3f);
         }
     }
     
