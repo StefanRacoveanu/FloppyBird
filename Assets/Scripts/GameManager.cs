@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Net.Mime;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
@@ -51,12 +52,24 @@ public class GameManager : MonoBehaviour
         _text.text = "Score: " + _score;
     }
 
-    IEnumerator FlashGameOverText()
+    private IEnumerator FlashGameOverText()
     {
         while (true)
         {
             _gameOverText.SetActive(!_gameOverText.activeSelf);
             yield return new WaitForSeconds(0.75f);
+        }
+    }
+
+    private IEnumerator WaitForRestart()
+    {
+        while (true)
+        {
+            if (Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space))
+            {
+                SceneManager.LoadScene(0);
+            }
+            yield return null;
         }
     }
 
@@ -66,6 +79,7 @@ public class GameManager : MonoBehaviour
         StartCoroutine(FlashGameOverText());
         Destroy(_cameraScript);
         Destroy(_player);
+        StartCoroutine(WaitForRestart());
     }
     
     public void PauseButton()
