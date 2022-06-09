@@ -10,7 +10,6 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private float _distance;
     
     private float _lastPipe = 0.0f;
-    private float _nextPos = 0f;
     private GameObject _player;
     private Transform _pipeContainer;
     private Coroutine _pipeSpawner;
