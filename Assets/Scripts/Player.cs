@@ -10,8 +10,8 @@ public class Player : MonoBehaviour
     [SerializeField] private float _jumpCooldown;
     [SerializeField] private float _rotationSpeed;
 
-    private Rigidbody2D _rb;
-    private GameManager _gameManager;
+    private Rigidbody2D  _rb;
+    private GameManager  _gameManager;
     private float _canJump = -1f;
     private int _score = 0;
     
@@ -26,7 +26,7 @@ public class Player : MonoBehaviour
     {
         if (other.transform.tag == "Teava")
         {
-            Destroy(this.gameObject);
+            _gameManager.OnDeath();
         }
     }
 
@@ -44,12 +44,12 @@ public class Player : MonoBehaviour
 
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         if (_gameManager == null)
-            Debug.LogError("_gameManager is NULL!");    
+            Debug.LogError("_gameManager is NULL!");
     }
 
     private void Jump()
     {
-        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= _canJump && GameManager.)
+        if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space)) && Time.time >= _canJump)
         {
             _rb.velocity = new Vector2(_rb.velocity.x,_jumpForce);;
             _canJump = Time.time + _jumpCooldown;
@@ -76,7 +76,7 @@ public class Player : MonoBehaviour
     {
         if (transform.position.y > 6.5 || transform.position.y < -6.5)
         {
-            Destroy(this.gameObject);            
+            _gameManager.OnDeath();
         }
     }
 

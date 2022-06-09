@@ -10,8 +10,9 @@ public class GameManager : MonoBehaviour
 { 
     private int _score;
     private Text _text;
-    private bool _
     [SerializeField] private GameObject _menu;
+    private SpawnManager _spawnManager;
+    private GameObject _player;
 
     private void Start()
     {
@@ -23,6 +24,14 @@ public class GameManager : MonoBehaviour
         _text = GameObject.Find("Score").GetComponent<Text>();
         if (_text == null)
             Debug.LogError("_text is NULL!");
+        
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+            Debug.LogError("_spawnManager is NULL!");
+
+        _player = GameObject.FindWithTag("Player");
+        if (_player == null)
+            Debug.LogError("_player is NULL!");
     }
 
     public void UpdateScore(int score)
@@ -36,6 +45,13 @@ public class GameManager : MonoBehaviour
         _text.text = "Score: " + _score;
     }
 
+    public void OnDeath()
+    {
+        Debug.Log("test");
+        _spawnManager.StopSpawn();
+        Destroy(_player);
+    }
+    
     public void PauseButton()
     {
         if (Time.timeScale == 0)
