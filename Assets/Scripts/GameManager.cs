@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private Text _text;
     [SerializeField] private GameObject _menu;
     private SpawnManager _spawnManager;
+    private CameraScript _cameraScript;
     private GameObject _player;
 
     private void Start()
@@ -29,9 +30,13 @@ public class GameManager : MonoBehaviour
         if (_spawnManager == null)
             Debug.LogError("_spawnManager is NULL!");
 
-        _player = GameObject.FindWithTag("Player");
+        _player = GameObject.Find("Player");
         if (_player == null)
             Debug.LogError("_player is NULL!");
+        
+        _cameraScript = GameObject.Find("Main Camera").GetComponent<CameraScript>();
+        if (_cameraScript == null)
+            Debug.LogError("_cameraScript is NULL!");
     }
 
     public void UpdateScore(int score)
@@ -47,8 +52,8 @@ public class GameManager : MonoBehaviour
 
     public void OnDeath()
     {
-        Debug.Log("test");
         _spawnManager.StopSpawn();
+        Destroy(_cameraScript);
         Destroy(_player);
     }
     
